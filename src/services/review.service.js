@@ -1,0 +1,72 @@
+const Reviews = require("../models/review.model");
+
+const create = async (reviewData) => {
+  try {
+    const newReview = await Reviews.create(reviewData);
+    if (!newReview) throw new Error("not successful");
+    return newReview;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const update = async (userId, data, movieId, reviewId) => {
+  try {
+    const review = await Reviews.findOne({
+      _id: reviewId,
+      movieId: movieId,
+      userId: userId,
+    });
+    if (!review) throw new Error("no authorized/ review dont exist");
+
+    const update = await Reviews.findOneAndUpdate({ _id: id }, { $set: data });
+    return update;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteR = async (userId, movieId, reviewId) => {
+  try {
+    const review = await Reviews.findOne({
+      _id: reviewId,
+      movieId: movieId,
+      userId: userId,
+    });
+    if (!review) throw new Error("no authorized/ review dont exist");
+
+    const del = await Reviews.findByIdAndDelete({ _id: id });
+    return del;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAll = async (id) => {
+  try {
+    const allReview = await Reviews.find({ movieId: id });
+    if (!allReview) throw new Error("no such movie exist in database");
+    return allReview;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getRating = async (id) => {
+  try {
+    const getAllRating = await Reviews.find({ movieId: id });
+    if (!getAllRating) throw new Error("no such movie exist in database");
+
+    let len = getAllRating.length;
+    let totalR = 0;
+    for (let i = 0; i < len; i++) {
+      totalR += getAllRating[i].rating;
+    }
+    const netRating = Math.floor(totalR / len);
+    return netRating;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { create, update, deleteR, getAll, getRating };
