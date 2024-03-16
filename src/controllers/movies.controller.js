@@ -14,7 +14,7 @@ const postMovie = async (req, res) => {
       userId,
     };
 
-    const movie = await moviesService.create(movieData);
+    const movie = await moviesService.create(movieData, userId);
     res.status(201).json({
       message: "successfully uploaded movie",
       movie,
