@@ -6,8 +6,9 @@ const postReview = async (req, res) => {
     const { id } = req.params; // movies id ;
     const userId = req.user.id;
     const { rating, text } = req.body;
+
     const reviewData = { rating, text, movieId: id, userId };
-    const newReview = await reviewServices.create(reviewData);
+    const newReview = await reviewServices.create(reviewData, userId);
     res.status(201).json({
       message: "review posted 🤖",
       newReview,
@@ -35,6 +36,7 @@ const updateReview = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const deleteReview = async (req, res) => {
   try {
     const { movieId, reviewId } = req.params;
@@ -48,6 +50,7 @@ const deleteReview = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getAllReview = async (req, res) => {
   try {
     const { id } = req.params;
@@ -60,6 +63,7 @@ const getAllReview = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getAllRating = async (req, res) => {
   try {
     const { id } = req.params;

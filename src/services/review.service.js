@@ -1,7 +1,21 @@
 const Reviews = require("../models/review.model");
+const User = require("../models/user.model");
 
-const create = async (reviewData) => {
+const checkUser = async (userId) => {
   try {
+    const isExist = await User.findById({ _id: userId });
+    if (!isExist) return false;
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const create = async (reviewData, userId) => {
+  try {
+    const userCheck = await checkUser(userId);
+    if (!userCheck) throw new Error("please login with valid credential");
+
     const newReview = await Reviews.create(reviewData);
     if (!newReview) throw new Error("not successful");
     return newReview;
@@ -12,6 +26,9 @@ const create = async (reviewData) => {
 
 const update = async (userId, data, movieId, reviewId) => {
   try {
+    const userCheck = await checkUser(userId);
+    if (!userCheck) throw new Error("please login with valid credential");
+
     const review = await Reviews.findOne({
       _id: reviewId,
       movieId: movieId,
@@ -32,6 +49,9 @@ const update = async (userId, data, movieId, reviewId) => {
 
 const deleteR = async (userId, movieId, reviewId) => {
   try {
+    const userCheck = await checkUser(userId);
+    if (!userCheck) throw new Error("please login with valid credential");
+
     const review = await Reviews.findOne({
       _id: reviewId,
       movieId: movieId,
