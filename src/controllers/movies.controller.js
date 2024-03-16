@@ -70,9 +70,12 @@ const getMovieById = async (req, res) => {
 const getAllMovies = async (req, res) => {
   try {
     const { genre, releaseYear, director } = req.query;
-    console.log(req.query.genre);
+    let filter = {};
+    if (genre) filter.genre = genre;
+    if (releaseYear) filter.releaseYear = releaseYear;
+    if (director) filter.director = director;
 
-    const getMovie = await moviesService.getAll(genre, releaseYear, director);
+    const getMovie = await moviesService.getAll(filter);
     res.status(200).json({
       message: "got the movie",
       getMovie,

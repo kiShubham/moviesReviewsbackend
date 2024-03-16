@@ -18,8 +18,12 @@ const update = async (userId, data, movieId, reviewId) => {
       userId: userId,
     });
     if (!review) throw new Error("no authorized/ review dont exist");
-
-    const update = await Reviews.findOneAndUpdate({ _id: id }, { $set: data });
+    let options = { new: true };
+    const update = await Reviews.findOneAndUpdate(
+      { _id: reviewId },
+      { $set: data },
+      options
+    );
     return update;
   } catch (error) {
     throw error;
@@ -35,7 +39,7 @@ const deleteR = async (userId, movieId, reviewId) => {
     });
     if (!review) throw new Error("no authorized/ review dont exist");
 
-    const del = await Reviews.findByIdAndDelete({ _id: id });
+    const del = await Reviews.findByIdAndDelete({ _id: reviewId });
     return del;
   } catch (error) {
     throw error;

@@ -46,14 +46,8 @@ const getById = async (id) => {
   }
 };
 
-const getAll = async ({ genre = "", releaseYear = "", director = "" }) => {
+const getAll = async (filter) => {
   try {
-    const filter = {
-      genre: genre,
-      releaseYear: releaseYear,
-      director: director,
-    };
-
     const getmovie = await Movies.find(filter);
     return getmovie;
   } catch (error) {

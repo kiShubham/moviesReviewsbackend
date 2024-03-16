@@ -3,7 +3,6 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   //"Bearer token.."
-  console.log("inthe middleware");
 
   if (!token) {
     return res.status(401).json({ message: "you are not authorized" });

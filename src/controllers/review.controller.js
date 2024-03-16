@@ -18,7 +18,6 @@ const postReview = async (req, res) => {
 };
 const updateReview = async (req, res) => {
   try {
-    console.log("inthe controller");
     const { movieId, reviewId } = req.params;
     const userId = req.user.id;
     const updateR = await reviewServices.update(
@@ -27,6 +26,7 @@ const updateReview = async (req, res) => {
       movieId,
       reviewId
     );
+
     res.status(201).json({
       message: "review updated",
       updateR,
